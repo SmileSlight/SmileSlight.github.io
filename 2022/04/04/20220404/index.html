@@ -598,7 +598,313 @@
                 <blockquote>
 <p>使用语言：C++<br>参考网站：<a target="_blank" rel="noopener" href="https://leetcode-cn.com">https://leetcode-cn.com</a><br>参考书籍：《剑指 Offer》</p>
 </blockquote>
+<h3 id="剑指-Offer-12-矩阵中的路径"><a href="#剑指-Offer-12-矩阵中的路径" class="headerlink" title="剑指 Offer 12. 矩阵中的路径"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/">剑指 Offer 12. 矩阵中的路径</a></h3><blockquote>
+<ul>
+<li>给定一个 <em>m x n</em> 二维字符网格 <em>board</em> 和一个字符串单词 <em>word</em> 。如果 <em>word</em> 存在于网格中，返回 <em>true</em> ；否则，返回 <em>false</em> 。  </li>
+<li>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。  </li>
+</ul>
+<p>解题思路：  </p>
+<ul>
+<li>使用 <em>DFS</em> 进行遍历起点的递归搜索</li>
+<li>在搜索中，若遇到<u>这条路不可能和目标字符串匹配成功则立即返回</u><br>即: <strong>可行性剪枝</strong>  </li>
+</ul>
+</blockquote>
+<pre><code>class Solution &#123;
+public:
+    bool exist(vector&lt;vector&lt;char&gt;&gt;&amp; board, string word) &#123;
+        int rows = board.size() ; int cols = board[0].size();
+        //遍历每个可能的起点
+        for(int i = 0 ; i &lt; rows ; i++ )&#123;
+            for(int j = 0 ; j &lt; cols ; j++ )&#123;
+                if(dfs(board,word,i,j,0)) return true;
+            &#125;
+        &#125;
+        return false;
+    &#125;
+    bool dfs(vector&lt;vector&lt;char&gt;&gt;&amp; board,string word,int i,int j,int k)&#123;
+        //剪枝
+        if(i&lt;0 || j&lt;0 || i&gt;board.size()-1 || j&gt;board[0].size()-1 || board[i][j]!=word[k]) return false;
+        if(word.size()==k+1) return true;
+        board[i][j] = &#39;\0&#39;;
+        //递归
+        bool res = dfs(board, word, i + 1, j, k + 1) || dfs(board, word, i - 1, j, k + 1) || dfs(board, word, i, j + 1, k + 1) || dfs(board, word, i, j - 1, k + 1);
+        board[i][j] = word[k];
+        return res;      
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-13-机器人的运动范围"><a href="#剑指-Offer-13-机器人的运动范围" class="headerlink" title="剑指 Offer 13. 机器人的运动范围"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">剑指 Offer 13. 机器人的运动范围</a></h3><blockquote>
+<ul>
+<li>地上有一个m行n列的方格，从坐标 <em>[0,0]</em> 到坐标 <em>[m-1,n-1]</em> 。一个机器人从坐标 <em>[0, 0]</em> 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于k的格子。</li>
+<li>例如，当k为18时，机器人能够进入方格 [35, 37] ，因为3+5+3+7=18。但它不能进入方格 [35, 38]，因为3+5+3+8=19。请问该机器人能够到达多少个格子？</li>
+</ul>
+<p>解题思路：  </p>
+<ul>
+<li><em>DFS</em>： 判断边界以及可达与否即可 用一个二维bool数组记录到达过的地方  </li>
+<li><em>BFS</em>： 依靠队列范围搜索即可 条件和<em>DFS</em>一致 </li>
+<li><em>数学方法</em>： 其实可以用数学规律来进行操作 等腰三角形区域规律分布 </li>
+</ul>
+</blockquote>
+<pre><code>//DFS  
+class Solution &#123;  
+public:  
+    int movingCount(int m, int n, int k) &#123;  
+        int res=0;  
+        vector&lt;vector&lt;bool&gt;&gt; move(m, vector&lt;bool&gt;(n,0));  
+        return dfs(move,m,n,k,res,0,0);  
+    &#125;  
 
+    int dfs(vector&lt;vector &lt;bool&gt; &gt; &amp; move,int m,int n,int k,int &amp; res ,int i,int j)&#123;
+        if(i&lt;0 || i&gt;m-1 || j&lt;0 || j&gt;n-1 || (sums(i)+sums(j))&gt;k || move[i][j]) return 0;
+        else&#123;
+            move[i][j]=1;
+            res++;
+            dfs(move,m,n,k,res,i+1,j);
+            dfs(move,m,n,k,res,i,j+1);
+            dfs(move,m,n,k,res,i-1,j);
+            dfs(move,m,n,k,res,i,j-1);
+            return res;   
+        &#125;   
+    &#125;
+
+    int sums(int x)&#123;
+        int s = 0;
+        while(x != 0) &#123;
+            s += x % 10;
+            x = x / 10;
+        &#125;
+        return s;
+    &#125;
+&#125;;
+
+//BFS
+class Solution &#123;
+public:
+    int movingCount(int m, int n, int k) &#123;
+        vector&lt;vector&lt;bool&gt;&gt; visited(m, vector&lt;bool&gt;(n, 0));
+        int res = 0;
+        queue&lt;vector&lt;int&gt;&gt; que;
+        que.push(&#123; 0, 0, 0, 0 &#125;);
+        while(que.size() &gt; 0) &#123;
+            vector&lt;int&gt; x = que.front();
+            que.pop();
+            int i = x[0], j = x[1], si = x[2], sj = x[3];
+            if(i &gt;= m || j &gt;= n || k &lt; si + sj || visited[i][j]) continue;
+            visited[i][j] = true;
+            res++;
+            que.push(&#123; i + 1, j, (i + 1) % 10 != 0 ? si + 1 : si - 8, sj &#125;);
+            que.push(&#123; i, j + 1, si, (j + 1) % 10 != 0 ? sj + 1 : sj - 8 &#125;);
+        &#125;
+        return res;
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-34-二叉树中和为某一值的路径"><a href="#剑指-Offer-34-二叉树中和为某一值的路径" class="headerlink" title="剑指 Offer 34. 二叉树中和为某一值的路径"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-shu-zhong-he-wei-mou-yi-zhi-de-lu-jing-lcof/">剑指 Offer 34. 二叉树中和为某一值的路径</a></h3><blockquote>
+<ul>
+<li>给你二叉树的根节点 root 和一个整数目标和 targetSum ，找出所有 从根节点到叶子节点 路径总和等于给定目标和的路径。 </li>
+</ul>
+<p>解题思路：</p>
+<ul>
+<li><em>DFS</em> 通过一维vector储存每一条路径 达到目标的再插入二维vector中即可  </li>
+<li>每个非空节点加入path中并判值 若达到target就保存为一条路径 否则从path中删除这个节点  </li>
+</ul>
+</blockquote>
+<pre><code>class Solution &#123;
+public:
+    vector&lt;int&gt; path;
+    vector&lt;vector&lt;int&gt;&gt; sum;
+    vector&lt;vector&lt;int&gt;&gt; pathSum(TreeNode* root, int target) &#123;
+        calpath(root,target);
+        return sum;
+    &#125;
+
+    void calpath(TreeNode* root,int target)&#123;
+        if(root == nullptr) return;
+        path.push_back(root-&gt;val);
+        target -= root-&gt;val;
+        if(target == 0 &amp;&amp; root-&gt;left == nullptr &amp;&amp;root-&gt;right == nullptr) sum.push_back(path);
+        calpath(root-&gt;left,target);
+        calpath(root-&gt;right,target);
+        path.pop_back();
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-36-二叉搜索树与双向链表"><a href="#剑指-Offer-36-二叉搜索树与双向链表" class="headerlink" title="剑指 Offer 36. 二叉搜索树与双向链表"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-yu-shuang-xiang-lian-biao-lcof/">剑指 Offer 36. 二叉搜索树与双向链表</a></h3><blockquote>
+<ul>
+<li>输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的循环双向链表。要求不能创建任何新的节点，只能调整树中节点指针的指向。  </li>
+</ul>
+<p>解题思路：</p>
+<ul>
+<li>用pre，cur双指针进行中序遍历的递归 对每2个节点进行处理</li>
+</ul>
+</blockquote>
+<pre><code>class Solution &#123;
+public:
+    Node *pre, *head;
+
+    Node* treeToDoublyList(Node* root) &#123;
+        if(root == nullptr) return nullptr;
+        dfs(root);
+        head-&gt;left = pre;
+        pre-&gt;right = head;
+        return head;
+    &#125;
+
+    void dfs(Node* cur) &#123;
+        if(cur == nullptr) return;
+        dfs(cur-&gt;left);
+        if(pre == nullptr) head = cur;
+        else pre-&gt;right = cur;
+        cur-&gt;left = pre;
+        pre = cur;
+        dfs(cur-&gt;right);
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-54-二叉搜索树的第k大节点"><a href="#剑指-Offer-54-二叉搜索树的第k大节点" class="headerlink" title="剑指 Offer 54. 二叉搜索树的第k大节点"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/">剑指 Offer 54. 二叉搜索树的第k大节点</a></h3><blockquote>
+<ul>
+<li>给定一棵二叉搜索树，请找出其中第 <em>k</em> 大的节点的值。</li>
+</ul>
+<p>解题思路：  </p>
+<ul>
+<li>本质就是中序遍历 递归维护一个变量k即可。</li>
+</ul>
+</blockquote>
+<pre><code>class Solution &#123;
+public:
+    int res,k;
+    int kthLargest(TreeNode* root, int k) &#123;
+        this-&gt;k = k;
+        dfs(root);
+        return res;
+    &#125;
+    void dfs(TreeNode* root)&#123;
+        if(root == nullptr) return;
+        dfs(root-&gt;right);
+        if(k == 0) return;
+        if(--k == 0) res = root-&gt;val;
+        dfs(root-&gt;left);
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-45-把数组排成最小的数"><a href="#剑指-Offer-45-把数组排成最小的数" class="headerlink" title="剑指 Offer 45. 把数组排成最小的数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/ba-shu-zu-pai-cheng-zui-xiao-de-shu-lcof/">剑指 Offer 45. 把数组排成最小的数</a></h3><blockquote>
+<ul>
+<li>输入一个非负整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。<br>解题思路：</li>
+<li>本质就是 <em>sort</em> 的 <em>cmp</em> 中 <em>a+b</em> 与 <em>b+a</em> 字典序的比较 </li>
+</ul>
+</blockquote>
+<p>class Solution {<br>public:<br>    string minNumber(vector<int>&amp; nums) {<br>        vector<string> snums;<br>        string res;<br>        for(int i = 0;i &lt; nums.size();i++) snums.push_back(to_string(nums[i]));<br>        sort(snums.begin(),snums.end(),cmp);<br>        for(int i = 0;i &lt; snums.size();i++) res.append(snums[i]);<br>        return res;<br>    }<br>    bool static cmp(string a,string b) {<br>        return a + b &lt; b + a;<br>    }<br>};</p>
+<h3 id="剑指-Offer-61-扑克牌中的顺子"><a href="#剑指-Offer-61-扑克牌中的顺子" class="headerlink" title="剑指 Offer 61. 扑克牌中的顺子"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/bu-ke-pai-zhong-de-shun-zi-lcof/">剑指 Offer 61. 扑克牌中的顺子</a></h3><blockquote>
+<ul>
+<li>从若干副扑克牌中随机抽 5 张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。</li>
+</ul>
+<p>解题思路：  </p>
+<ul>
+<li>顺子满足: ①无重复牌  &amp; ②最大牌数 - 最小牌 &lt;5 (除大小王)</li>
+</ul>
+</blockquote>
+<pre><code>class Solution &#123;
+public:
+    bool isStraight(vector&lt;int&gt;&amp; nums) &#123;
+        int joker = 0;
+        sort(nums.begin(),nums.end());
+        for( int i = 0 ; i &lt; 4 ; i++ )&#123;
+            if(nums[i] == 0) joker++;
+            else if(nums[i] == nums[i + 1]) return false;
+        &#125;
+        return nums[4] - nums[joker] &lt; 5;
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-40-最小的k个数"><a href="#剑指-Offer-40-最小的k个数" class="headerlink" title="剑指 Offer 40. 最小的k个数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/">剑指 Offer 40. 最小的k个数</a></h3><blockquote>
+<ul>
+<li>输入整数数组 arr ，找出其中最小的 k 个数  </li>
+</ul>
+<p>解题思路：  </p>
+<ul>
+<li>TopK问题 快排等都可以</li>
+</ul>
+</blockquote>
+<pre><code>class Solution &#123;
+public:
+    vector&lt;int&gt; getLeastNumbers(vector&lt;int&gt;&amp; arr, int k) &#123;
+        if (k &gt;= arr.size()) return arr;
+        return quickSort(arr, k, 0, arr.size() - 1);
+    &#125;
+private:
+    vector&lt;int&gt; quickSort(vector&lt;int&gt;&amp; arr, int k, int l, int r) &#123;
+        int i = l, j = r;
+        while (i &lt; j) &#123;
+            while (i &lt; j &amp;&amp; arr[j] &gt;= arr[l]) j--;
+            while (i &lt; j &amp;&amp; arr[i] &lt;= arr[l]) i++;
+            swap(arr[i], arr[j]);
+        &#125;
+        swap(arr[i], arr[l]);
+        if (i &gt; k) return quickSort(arr, k, l, i - 1);
+        if (i &lt; k) return quickSort(arr, k, i + 1, r);
+        vector&lt;int&gt; res;
+        res.assign(arr.begin(), arr.begin() + k);
+        return res;
+    &#125;
+&#125;;
+</code></pre><h3 id="剑指-Offer-41-数据流中的中位数"><a href="#剑指-Offer-41-数据流中的中位数" class="headerlink" title="剑指 Offer 41. 数据流中的中位数"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shu-ju-liu-zhong-de-zhong-wei-shu-lcof/">剑指 Offer 41. 数据流中的中位数</a></h3><blockquote>
+<ul>
+<li><p>如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。</p>
+</li>
+<li><p>设计一个支持以下两种操作的数据结构：</p>
+</li>
+<li><ul>
+<li>void addNum(int num) - 从数据流中添加一个整数到数据结构中。</li>
+</ul>
+</li>
+<li><ul>
+<li>double findMedian() - 返回目前所有元素的中位数。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<pre><code>class MedianFinder &#123;
+public:
+    // 最大堆，存储左边一半的数据，堆顶为最大值
+    priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt;&gt; maxHeap;
+    // 最小堆， 存储右边一半的数据，堆顶为最小值
+    priority_queue&lt;int, vector&lt;int&gt;, greater&lt;int&gt;&gt; minHeap;
+    /** initialize your data structure here. */
+    MedianFinder() &#123;
+    &#125;
+
+    // 维持堆数据平衡，并保证左边堆的最大值小于或等于右边堆的最小值
+    void addNum(int num) &#123;
+        /*
+        * 当两堆的数据个数相等时候，左边堆添加元素。
+        * 采用的方法不是直接将数据插入左边堆，而是将数据先插入右边堆，算法调整后
+        * 将堆顶的数据插入到左边堆，这样保证左边堆插入的元素始终是右边堆的最小值。
+        * 同理左边数据多，往右边堆添加数据的时候，先将数据放入左边堆，选出最大值放到右边堆中。
+        */
+        if (maxHeap.size() == minHeap.size()) &#123;
+            minHeap.push(num);
+            int top = minHeap.top();
+            minHeap.pop();
+            maxHeap.push(top);
+        &#125; else &#123;
+            maxHeap.push(num);
+            int top = maxHeap.top();
+            maxHeap.pop();
+            minHeap.push(top);
+        &#125;
+    &#125;
+
+    double findMedian() &#123;
+        if (maxHeap.size() == minHeap.size()) &#123;
+            return (maxHeap.top()+minHeap.top())*1.0/2;
+        &#125; else &#123;
+            return maxHeap.top()*1.0;
+        &#125;
+    &#125;
+&#125;;
+
+
+/**
+* Your MedianFinder object will be instantiated and called as such:
+* MedianFinder* obj = new MedianFinder();
+* obj-&gt;addNum(num);
+* double param_2 = obj-&gt;findMedian();
+*/
+</code></pre>
                 
             </div>
             <hr/>
@@ -719,30 +1025,29 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/04/04/20220404/">
+                <a href="/2022/04/22/Ucore/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="剑指offer速刷（2）">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Ucore">
                         
-                        <span class="card-title">剑指offer速刷（2）</span>
+                        <span class="card-title">Ucore</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            刷题之旅的开始~
+                            os_learn
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-04
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-22
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -751,20 +1056,15 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C/">
-                        <span class="chip bg-color">C++</span>
+                    <a href="/tags/os/">
+                        <span class="chip bg-color">os</span>
                     </a>
                     
-                    <a href="/tags/%E5%89%91%E6%8C%87/">
-                        <span class="chip bg-color">剑指</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%88%B7%E9%A2%98/">
-                        <span class="chip bg-color">刷题</span>
+                    <a href="/tags/lab/">
+                        <span class="chip bg-color">lab</span>
                     </a>
                     
                 </div>
