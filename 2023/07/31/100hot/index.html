@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Ucore, Welcome">
-    <meta name="description" content="os_learn">
+    <meta name="keywords" content="Welcome">
+    <meta name="description" content="114. 二叉树展开为链表给你二叉树的根结点 root ，请你将它展开为一个单链表：
+展开后的单链表应该同样使用 TreeNode ，其中 right 子指针指向链表中下一个结点，而左子指针始终为 null 。展开后的单链表应该与二叉树 先">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Ucore | Welcome</title>
+    <title>Welcome</title>
     <link rel="icon" type="image/png" href="/1.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -426,12 +427,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Ucore</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -545,17 +546,9 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/os/">
-                                <span class="chip bg-color">os</span>
-                            </a>
-                        
-                            <a href="/tags/lab/">
-                                <span class="chip bg-color">lab</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -567,7 +560,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-22
+                    2023-07-31
                 </div>
                 
 
@@ -591,22 +584,123 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <blockquote>
-<p>参考网站：<a target="_blank" rel="noopener" href="https://chyyuu.gitbooks.io/ucore_os_docs/content/">https://chyyuu.gitbooks.io/ucore_os_docs/content/</a></p>
-</blockquote>
-<h2 id="实验进度推进图"><a href="#实验进度推进图" class="headerlink" title="实验进度推进图"></a>实验进度推进图</h2><p>我们准备如何一步一步来实现ucore呢？根据一个操作系统的设计实现过程，我们可以有如下的实验步骤：</p>
-<ol>
-<li>启动操作系统的bootloader，用于了解操作系统启动前的状态和要做的准备工作，了解运行操作系统的硬件支持，操作系统如何加载到内存中，理解两类中断—“外设中断”，“陷阱中断”等；</li>
-<li>物理内存管理子系统，用于理解x86分段/分页模式，了解操作系统如何管理物理内存；</li>
-<li>虚拟内存管理子系统，通过页表机制和换入换出（swap）机制，以及中断-“故障中断”、缺页故障处理等，实现基于页的内存替换算法；</li>
-<li>内核线程子系统，用于了解如何创建相对与用户进程更加简单的内核态线程，如果对内核线程进行动态管理等；</li>
-<li>用户进程管理子系统，用于了解用户态进程创建、执行、切换和结束的动态管理过程，了解在用户态通过系统调用得到内核态的内核服务的过程；</li>
-<li>处理器调度子系统，用于理解操作系统的调度过程和调度算法；</li>
-<li>同步互斥与进程间通信子系统，了解进程间如何进行信息交换和共享，并了解同步互斥的具体实现以及对系统性能的影响，研究死锁产生的原因，以及如何避免死锁；</li>
-<li>文件系统，了解文件系统的具体实现，与进程管理等的关系，了解缓存对操作系统IO访问的性能改进，了解虚拟文件系统（VFS）、buffer cache和disk driver之间的关系。</li>
-</ol>
-<p>其中每个开发步骤都是建立在上一个步骤之上的，就像搭积木，从一个一个小木块，最终搭出来一个小房子。在搭房子的过程中，完成从理解操作系统原理到实践操作系统设计与实现的探索过程。这个房子最终的建筑架构和建设进度如下图所示：</p>
-<p><img src="https://s2.loli.net/2022/04/22/BIF8LKk7D6vdcJT.png" alt="image.png"></p>
+                <h4 id="114-二叉树展开为链表"><a href="#114-二叉树展开为链表" class="headerlink" title="114. 二叉树展开为链表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/">114. 二叉树展开为链表</a></h4><p>给你二叉树的根结点 root ，请你将它展开为一个单链表：</p>
+<p>展开后的单链表应该同样使用 TreeNode ，其中 right 子指针指向链表中下一个结点，而左子指针始终为 null 。<br>展开后的单链表应该与二叉树 先序遍历 顺序相同。</p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/14/flaten.jpg" alt="img"></p>
+<pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile">输入：root <span class="token operator">=</span> [1,2,5,3,4,null,6]
+输出：[1,null,2,null,3,null,4,null,5,null,6]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">&#x2F;&#x2F; 看上去要先序遍历 其实是反先序遍历 防止丢失左子树
+
+&#x2F;**
+ * Definition for a binary tree node.
+ * struct TreeNode &#123;
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) &#123;&#125;
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) &#123;&#125;
+ * &#125;;
+ *&#x2F;
+class Solution &#123;
+public:
+    TreeNode* last &#x3D;nullptr;
+    void flatten(TreeNode* root) &#123;
+        if(not root) return;
+        flatten(root -&gt; right);
+        flatten(root -&gt; left);
+        root -&gt; left &#x3D; nullptr;
+        root -&gt; right &#x3D; last;
+        last &#x3D; root;
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="207-课程表"><a href="#207-课程表" class="headerlink" title="207. 课程表"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/course-schedule/">207. 课程表</a></h4><p>你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。</p>
+<p>在选修某些课程之前需要一些先修课程。 先修课程按数组 prerequisites 给出，其中 prerequisites[i] = [ai, bi] ，表示如果要学习课程 ai 则 必须 先学习课程  bi 。</p>
+<p>例如，先修课程对 [0, 1] 表示：想要学习课程 0 ，你需要先完成课程 1 。<br>请你判断是否可能完成所有课程的学习？如果可以，返回 true ；否则，返回 false 。</p>
+<pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile">输入：numCourses <span class="token operator">=</span> 2, prerequisites <span class="token operator">=</span> [[1,0]]
+输出：true
+解释：总共有 2 门课程。学习课程 1 之前，你需要完成课程 0 。这是可能的。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">class Solution &#123;
+public:
+    bool canFinish(int numCourses, vector&lt;vector&lt;int&gt;&gt;&amp; prerequisites) &#123;
+        vector&lt;int&gt; inDegree(numCourses);
+        unordered_map&lt;int, vector&lt;int&gt;&gt; map;
+        for (int i &#x3D; 0; i &lt; prerequisites.size(); i++) &#123;
+	        inDegree[prerequisites[i][0]]++;&#x2F;&#x2F;当前课程入度值+1
+	        map[prerequisites[i][1]].push_back(prerequisites[i][0]);&#x2F;&#x2F;添加依赖他的后续课
+        &#125;
+        queue&lt;int&gt; Qu;
+        for (int i &#x3D; 0; i &lt; numCourses; i++) &#123;
+	        if (inDegree[i] &#x3D;&#x3D; 0) Qu.push(i);&#x2F;&#x2F;所有入度为0的课入列
+        &#125;
+        int count &#x3D; 0;
+        while (Qu.size()) &#123;
+            int selected &#x3D; Qu.front();  &#x2F;&#x2F;当前选的课
+            Qu.pop();&#x2F;&#x2F;出列
+            count++;&#x2F;&#x2F;选课数+1
+            vector&lt;int&gt; toEnQueue &#x3D; map[selected];&#x2F;&#x2F;获取这门课对应的后续课
+            if (toEnQueue.size()) &#123; &#x2F;&#x2F;确实有后续课
+                for (int i &#x3D; 0; i &lt; toEnQueue.size(); i++) &#123;
+                    inDegree[toEnQueue[i]]--; &#x2F;&#x2F;依赖它的后续课的入度-1
+                    if (inDegree[toEnQueue[i]] &#x3D;&#x3D; 0) Qu.push(toEnQueue[i]); &#x2F;&#x2F;如果因此减为0，入列
+                &#125;
+            &#125;
+        &#125;
+        if (count &#x3D;&#x3D; numCourses) return true;
+        return false;   
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="560-和为-K-的子数组"><a href="#560-和为-K-的子数组" class="headerlink" title="560. 和为 K 的子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/subarray-sum-equals-k/">560. 和为 K 的子数组</a></h4><p>给你一个整数数组 <code>nums</code> 和一个整数 <code>k</code> ，请你统计并返回 <em>该数组中和为 <code>k</code> 的连续子数组的个数</em> 。</p>
+<pre class="line-numbers language-makefile" data-language="makefile"><code class="language-makefile">输入：nums <span class="token operator">=</span> [1,1,1], k <span class="token operator">=</span> 2
+输出：2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-C++" data-language="C++"><code class="language-C++">&#x2F;&#x2F; 关键在于理解 
+&#x2F;&#x2F; 题意：有几种 i、j 的组合，使得从第 i 到 j 项的子数组和等于 k。            ↓ ↓ ↓ 转化为 ↓ ↓ ↓ 
+&#x2F;&#x2F; 													有几种 i、j 的组合，满足 prefixSum[j] - prefixSum[i - 1] &#x3D;&#x3D; k
+
+class Solution &#123;
+public:
+    int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123;
+        &#x2F;&#x2F;前缀和 + Hash
+        &#x2F;&#x2F;前缀和： 前i项的总和
+        &#x2F;&#x2F;当遍历至i时，我们可以计算从0到i项的和iSum，同时执行检查
+        &#x2F;&#x2F;检查当前hash中与当前iSum的差为k的前缀和数量(这就是从前面到第i项的所有和为k的连续数组的数量了)
+        &#x2F;&#x2F;并且在res中添加相应数量
+        &#x2F;&#x2F;然后将iSum放入map中(若已经存在，则增加相应数量)即可
+        int res &#x3D; 0;
+        unordered_map&lt;int, int&gt; map;
+        &#x2F;&#x2F;为什么这里要多声明1步map[0] &#x3D; 1？ 这样是因为，最一开始的时候(0个元素)，和为0
+        &#x2F;&#x2F;这样，当我们首次从左到右一直累加出k时，才能得出正确的结果
+        map[0] &#x3D; 1;
+        int sum &#x3D; 0;
+        for (auto num : nums)
+        &#123;
+            sum +&#x3D; num;
+            &#x2F;&#x2F;检查前缀和中与该sum差距为k的和的数量
+            res +&#x3D; map[sum - k];
+            &#x2F;&#x2F;将当前sum放入hash中
+            ++map[sum];
+        &#125;
+        return res;
+    &#125;
+&#125;;
+
+
+&#x2F;&#x2F; 去注释 prefixSum[j] - prefixSum[i - 1] &#x3D;&#x3D; k    &#x3D;》   prefixSum[i - 1] &#x3D; prefixSum[j] - k
+class Solution &#123;
+public:
+    int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123;
+        int res &#x3D; 0;
+        unordered_map&lt;int, int&gt; map;
+        map[0] &#x3D; 1;
+        int sum &#x3D; 0;
+        for (auto num : nums)&#123;
+            sum +&#x3D; num;
+            res +&#x3D; map[sum - k];
+            ++map[sum];
+        &#125;
+        return res;
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -633,7 +727,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://smileslight.github.io/2022/04/22/Ucore/">https://smileslight.github.io/2022/04/22/Ucore/</a>
+                    <a href="https://smileslight.github.io/2023/07/31/100hot/">https://smileslight.github.io/2023/07/31/100hot/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -670,15 +764,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/os/">
-                                    <span class="chip bg-color">os</span>
-                                </a>
-                            
-                                <a href="/tags/lab/">
-                                    <span class="chip bg-color">lab</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -728,24 +814,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/07/22/SSM/">
+                <a href="/2023/07/31/20221019-Daily/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="SSM">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">SSM</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            SSM
+                            
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-07-31
                         </span>
                         <span class="publish-author">
                             
@@ -754,22 +840,6 @@
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Java/">
-                        <span class="chip bg-color">Java</span>
-                    </a>
-                    
-                    <a href="/tags/SSM/">
-                        <span class="chip bg-color">SSM</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%90%8E%E7%AB%AF/">
-                        <span class="chip bg-color">后端</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -952,13 +1022,6 @@
 </main>
 
 
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
-    });
-</script>
-
 
 
     <footer class="page-footer bg-color">
@@ -1023,7 +1086,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2022</span>
+                <span id="year">2022-2023</span>
             
             <a href="/about" target="_blank">Smile Slight</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
